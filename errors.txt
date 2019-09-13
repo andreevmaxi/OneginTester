@@ -1,0 +1,193 @@
+Error test7:
+CharProblem = 29
+text output:
+
+Dictionary of english life:
+a a
+ aa
+a
+a
+aa
+aaaaaaaaaa
+aaaaabbaaa
+aaabbaaaaa
+asafoamsofmoasfmosaf
+as bfmasfmomasfo
+asfmaosmfoamfoa
+asgkansgmk nams g
+asgknkkasnmgksangkn   aqrs
+b
+ba
+dadsdasdasd
+dsddddadsdsd
+g
+huhuahughsiuag
+sadasmofmoasfmoasf
+sf
+sospovog
+zzzzzzzzzza
+
+
+Rap Dictionary:
+a a
+a
+a
+aa
+ aa
+aaaaaaaaaa
+aaabbaaaaa
+aaaaabbaaa
+ba
+asfmaosmfoamfoa
+zzzzzzzzzza
+b
+dadsdasdasd
+dsddddadsdsd
+asafoamsofmoasfmosaf
+sf
+sadasmofmoasfmoasf
+asgkansgmk nams g
+g
+huhuahughsiuag
+sospovog
+as bfmasfmomasfo
+asgknkkasnmgksangkn   aqrs
+
+
+Original:
+zzzzzzzzzza
+aaaaaaaaaa
+aaaaabbaaa
+aaabbaaaaa
+sadasmofmoasfmoasf
+asfmaosmfoamfoa
+sf
+asafoamsofmoasfmosaf
+as bfmasfmomasfo
+dadsdasdasd
+dsddddadsdsd
+huhuahughsiuag
+g
+a
+a
+ba
+b
+asgkansgmk nams g
+asgknkkasnmgksangkn   aqrs
+sospovog
+aa
+a a
+ aa
+
+
+Test Text:
+
+zzzzzzzzzza
+aaaaaaaaaa
+aaaaabbaaa
+aaabbaaaaa
+
+
+sadasmofmoasfmoasf
+asfmaosmfoamfoa
+
+sf
+asafoamsofmoasfmosaf
+as bfmasfmomasfo
+
+
+
+dadsdasdasd
+dsddddadsdsd
+huhuahughsiuag
+g
+a
+a
+ba
+b
+asgkansgmk nams g
+asgknkkasnmgksangkn   aqrs
+sospovog
+
+aa
+a a
+ aa
+
+Test Ans:
+
+Dictionary of english life:
+ aa
+a
+a
+aa
+a a
+aaaaaaaaaa
+aaaaabbaaa
+aaabbaaaaa
+asafoamsofmoasfmosaf
+as bfmasfmomasfo
+asfmaosmfoamfoa
+asgkansgmk nams g
+asgknkkasnmgksangkn   aqrs
+b
+ba
+dadsdasdasd
+dsddddadsdsd
+g
+huhuahughsiuag
+sadasmofmoasfmoasf
+sf
+sospovog
+zzzzzzzzzza
+
+
+Rap Dictionary:
+a
+a
+aa
+a a
+ aa
+aaaaaaaaaa
+aaabbaaaaa
+aaaaabbaaa
+ba
+asfmaosmfoamfoa
+zzzzzzzzzza
+b
+dadsdasdasd
+dsddddadsdsd
+asafoamsofmoasfmosaf
+sf
+sadasmofmoasfmoasf
+g
+huhuahughsiuag
+sospovog
+asgkansgmk nams g
+as bfmasfmomasfo
+asgknkkasnmgksangkn   aqrs
+
+
+Original:
+zzzzzzzzzza
+aaaaaaaaaa
+aaaaabbaaa
+aaabbaaaaa
+sadasmofmoasfmoasf
+asfmaosmfoamfoa
+sf
+asafoamsofmoasfmosaf
+as bfmasfmomasfo
+dadsdasdasd
+dsddddadsdsd
+huhuahughsiuag
+g
+a
+a
+ba
+b
+asgkansgmk nams g
+asgknkkasnmgksangkn   aqrs
+sospovog
+aa
+a a
+ aa

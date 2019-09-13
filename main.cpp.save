@@ -1,0 +1,103 @@
+/*!
+* @mainpage
+* This is program that sorts texts
+*/
+
+/*!
+* \file main.cpp
+*/
+
+#include <cstdio>
+#include <cstdlib>
+#include "../OneginGood/OneginLib.h"
+
+#ifdef _DEBUG
+    #define ASSERT( cond )                                                                                                 \
+    {                                                                                                                      \
+        if (!(cond))                                                                                                       \
+        {                                                                                                                  \
+            printf("Ass failed: %s, file: %s,\nline: %d, function %s:\n", #cond, __FILE__, __LINE__, __PRETTY_FUNCTION__); \
+            abort();                                                                                                       \
+        }                                                                                                                  \
+    }
+
+    #define DPRINT printf
+#else
+    #define ASSERT( cond ) ;
+    #define DPRINT if(0) printf
+#endif
+
+int test(int i);
+
+int main(int argc, char **argv)
+{
+    const int NumOfTests = 7;
+    for (int i = 0; i < NumOfTests; ++i)
+    {
+        test(i);
+    }
+    return 0;
+}
+
+int test(int i)
+{
+    char NowTest[11] = "test" + (char)(i + 48) + ".txt";
+
+    Tmain( ("test"+ NowTest +".txt"), ("FuncAns.txt"));
+
+    FILE* FuncAns = fopen("FuncAns.txt", "rb");
+    FILE* NiceAns = fopen( ("answ"+(char)(i + 48)+".txt"), "rb");
+    FILE* Errors = fopen( ("errors.txt"), "wb+" );
+
+    char tmp1 = {};
+    char tmp2 = {};
+    char Result[3] = {};
+
+    bool IsAnsIsGood = 1;
+    while ( (tmp1 = getc (FuncAns)) != EOF && (tmp2 = getc (NiceAns)) != EOF && IsAnsIsGood )
+    {
+        if(tmp1 != tmp2)
+        {
+            IsAnsIsGood = 0;
+        }
+    }
+
+    if(tmp1 != tmp2)
+    {
+        IsAnsIsGood = 0;
+    }
+
+    if (IsAnsIsGood)
+    {
+        Result = "OK";
+    } else
+    {
+        rewind(FuncAns);
+        rewind(NiceAns);
+
+        fprintf(Errors, "Error test%d: \ntext output:\n", i);
+        PrintError(FuncAns, Errors);
+
+        fprintf(Errors, "\nTest Text:\n", i);
+        PrintError(("test"+(char)(i + 48)+".txt"), Errors);
+
+        fprintf(Errors, "\nTest Ans:\n", i);
+        PrintError(NiceAns, Errors);
+
+        Result = "BAD";
+    }
+    printf("Test number %d , result is %s \n", i, Result);
+}
+
+bool PrintError(FILE* fr, FILE* fw)
+{
+    ASSERT(fr != NULL);
+    ASSERT(fw != NULL);
+
+    char tmp = {};
+    while ( (tmp = getc (fr)) != EOF)
+    {
+        fprintf(fw, "%c", tmp);
+    }
+    return 0;
+}
