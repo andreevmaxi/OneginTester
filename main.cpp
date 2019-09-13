@@ -9,7 +9,7 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include "..\OneginGood\OneginLib.h"
+#include "OneginLib.h"
 
 #ifdef _DEBUG
     #define ASSERT( cond )                                                                                                 \
@@ -29,19 +29,20 @@
 
 bool PrintError(FILE* fr, FILE* fw);
 
-int test(int i);
+int test(int i, FILE* Errors);
 
 int main(int argc, char **argv)
 {
-    const int NumOfTests = 8;
+    FILE* ErrorFile = fopen( ("errors.txt"), "w" );
+    const int NumOfTests = 9;
     for (int i = 1; i < NumOfTests; ++i)
     {
-        test(i);
+        test(i, ErrorFile);
     }
     return 0;
 }
 
-int test(int i)
+int test(int i, FILE* Errors)
 {
     char NowTest[11] = "test .txt";
     NowTest[4] = (char)(i + 48);
@@ -52,10 +53,11 @@ int test(int i)
     char NowAns[11] = "answ .txt";
     NowAns[4] = (char)(i + 48);
     FILE* NiceAns = fopen( NowAns, "rb");
-    FILE* Errors = fopen( ("errors.txt"), "w+" );
     fseek(Errors, 0L, SEEK_END);
 
     int CharChange = 0;
+    int StrProblem = 0;
+    int CharOnProblemStr = 0;
     char tmp1 = {};
     char tmp2 = {};
     char Result[4] = {};
@@ -65,24 +67,24 @@ int test(int i)
     while ( (tmp1 = getc (FuncAns)) != EOF && (tmp2 = getc (NiceAns)) != EOF && IsAnsIsGood )
     {
         ++CharChange;
-
-        if(tmp2 == '\r')
+        ++CharOnProblemStr;
+        while(tmp2 == '\r')
         {
             (tmp2 = getc (NiceAns));
         }
-        if(tmp1 == '\r')
+        while(tmp1 == '\r')
         {
             (tmp1 = getc (FuncAns));
+        }
+        if(tmp1 == '\n')
+        {
+            CharOnProblemStr = 0;
+            ++StrProblem;
         }
         if(tmp1 != tmp2)
         {
             IsAnsIsGood = 0;
         }
-    }
-
-    if(tmp1 != tmp2)
-    {
-        IsAnsIsGood = 0;
     }
 
     if (IsAnsIsGood)
@@ -95,7 +97,7 @@ int test(int i)
         rewind(FuncAns);
         rewind(NiceAns);
 
-        fprintf(Errors, "Error test%d:\nCharProblem = %d\ntext output:\n\n", i, CharChange);
+        fprintf(Errors, "Error test%d:\nCharProblem = %d\nStrProblem = %d\nCharOnProblemStr = %d\ntext output:\n\n", i, CharChange, StrProblem, CharOnProblemStr);
         PrintError(FuncAns, Errors);
 
         fprintf(Errors, "\n\nTest Text:\n\n", i);
@@ -104,6 +106,7 @@ int test(int i)
 
         fprintf(Errors, "\n\nTest Ans:\n\n", i);
         PrintError(NiceAns, Errors);
+        fprintf(Errors, "\n\n");
         Result[0] = 'B';
         Result[1] = 'A';
         Result[2] = 'D';

@@ -9,7 +9,7 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include "../OneginGood/OneginLib.h"
+#include "OneginLib.h"
 
 #ifdef _DEBUG
     #define ASSERT( cond )                                                                                                 \
@@ -27,66 +27,91 @@
     #define DPRINT if(0) printf
 #endif
 
-int test(int i);
+bool PrintError(FILE* fr, FILE* fw);
+
+int test(int i, FILE* Errors);
 
 int main(int argc, char **argv)
 {
-    const int NumOfTests = 7;
-    for (int i = 0; i < NumOfTests; ++i)
+    FILE* ErrorFile = fopen( ("errors.txt"), "w" );
+    const int NumOfTests = ;
+    for (int i = 1; i < NumOfTests; ++i)
     {
-        test(i);
+        test(i, ErrorFile);
     }
     return 0;
 }
 
-int test(int i)
+int test(int i, FILE* Errors)
 {
-    char NowTest[11] = "test" + (char)(i + 48) + ".txt";
-
-    Tmain( ("test"+ NowTest +".txt"), ("FuncAns.txt"));
+    char NowTest[11] = "test .txt";
+    NowTest[4] = (char)(i + 48);
+    printf("%s\n",NowTest);
+    Tmain( NowTest, ("FuncAns.txt"));
 
     FILE* FuncAns = fopen("FuncAns.txt", "rb");
-    FILE* NiceAns = fopen( ("answ"+(char)(i + 48)+".txt"), "rb");
-    FILE* Errors = fopen( ("errors.txt"), "wb+" );
+    char NowAns[11] = "answ .txt";
+    NowAns[4] = (char)(i + 48);
+    FILE* NiceAns = fopen( NowAns, "rb");
+    fseek(Errors, 0L, SEEK_END);
 
+    int CharChange = 0;
+    int StrProblem = 0;
+    int CharOnProblemStr = 0;
     char tmp1 = {};
     char tmp2 = {};
-    char Result[3] = {};
+    char Result[4] = {};
+    Result[3] = '\0';
 
     bool IsAnsIsGood = 1;
     while ( (tmp1 = getc (FuncAns)) != EOF && (tmp2 = getc (NiceAns)) != EOF && IsAnsIsGood )
     {
+        ++CharChange;
+        ++CharOnProblemStr;
+        while(tmp2 == '\r')
+        {
+            (tmp2 = getc (NiceAns));
+        }
+        while(tmp1 == '\r')
+        {
+            (tmp1 = getc (FuncAns));
+        }
+        if(tmp1 == '\n')
+        {
+            CharOnProblemStr = 0;
+            ++StrProblem;
+        }
         if(tmp1 != tmp2)
         {
             IsAnsIsGood = 0;
         }
     }
 
-    if(tmp1 != tmp2)
-    {
-        IsAnsIsGood = 0;
-    }
-
     if (IsAnsIsGood)
     {
-        Result = "OK";
+        Result[0] = 'O';
+        Result[1] = 'K';
+        Result[2] = ' ';
     } else
     {
         rewind(FuncAns);
         rewind(NiceAns);
 
-        fprintf(Errors, "Error test%d: \ntext output:\n", i);
+        fprintf(Errors, "Error test%d:\nCharProblem = %d\nStrProblem = %d\nCharOnProblemStr = %d\ntext output:\n\n", i, CharChange, StrProblem, CharOnProblemStr);
         PrintError(FuncAns, Errors);
 
-        fprintf(Errors, "\nTest Text:\n", i);
-        PrintError(("test"+(char)(i + 48)+".txt"), Errors);
+        fprintf(Errors, "\n\nTest Text:\n\n", i);
+        FILE* TestS = fopen(NowTest, "rb");
+        PrintError(TestS, Errors);
 
-        fprintf(Errors, "\nTest Ans:\n", i);
+        fprintf(Errors, "\n\nTest Ans:\n\n", i);
         PrintError(NiceAns, Errors);
-
-        Result = "BAD";
+        fprintf(Errors, "\n\n");
+        Result[0] = 'B';
+        Result[1] = 'A';
+        Result[2] = 'D';
     }
-    printf("Test number %d , result is %s \n", i, Result);
+    printf("Test number %d , result is %s\n\n", i, Result);
 }
 
 bool PrintError(FILE* fr, FILE* fw)
