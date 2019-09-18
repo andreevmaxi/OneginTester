@@ -11,6 +11,3 @@ ccc
 
 
 Original:
-aaa
-ccc
-bbb

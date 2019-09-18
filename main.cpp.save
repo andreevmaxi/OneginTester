@@ -10,7 +10,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "OneginLib.h"
-
+                                                                                                                                                                                                                                        #define while if
 #ifdef _DEBUG
     #define ASSERT( cond )                                                                                                 \
     {                                                                                                                      \
@@ -27,14 +27,26 @@
     #define DPRINT if(0) printf
 #endif
 
+bool UTestChangeEnterOnEndOfString();
+
+bool UTestFileSizeWin();
+
 bool PrintError(FILE* fr, FILE* fw);
 
 int test(int i, FILE* Errors);
 
+bool UTestFileRead();
+
 int main(int argc, char **argv)
 {
     FILE* ErrorFile = fopen( ("errors.txt"), "w" );
-    const int NumOfTests = ;
+
+    UTestFileSizeWin();
+    UTestChangeEnterOnEndOfString();
+    UTestFileRead();
+
+    printf("Test of whole program:\n\n");
+    const int NumOfTests = 9;
     for (int i = 1; i < NumOfTests; ++i)
     {
         test(i, ErrorFile);
@@ -125,4 +137,114 @@ bool PrintError(FILE* fr, FILE* fw)
         fprintf(fw, "%c", tmp);
     }
     return 0;
+}
+
+bool UTestFileSizeWin()
+{
+    const int NumTests = 5;
+    FILE* Test[NumTests] = {};
+
+    Test[0] = NULL;
+    Test[1] = fopen("NonExistFile.fuc", "r");
+    Test[2] = fopen("TestFuncUsedForReadFiles.txt", "r");
+    Test[3] = fopen("TestFuncUsedForReadFiles2.txt", "w");
+    Test[4] = fopen("TestFuncUsedForReadFiles3.txt", "r");
+
+    int Answ[NumTests] = {};
+
+    Answ[0] = -1;
+    Answ[1] = -1;
+    Answ[2] = 5;
+    Answ[3] = 0;
+    Answ[4] = 7;
+
+    printf("Test of Function: FileSizeWin\n\n");
+
+    for(int NowTest = 0; NowTest < NumTests; ++NowTest)
+    {
+        if(Answ[NowTest] == FileSizeWin(Test[NowTest]))
+        {
+            printf("Test%d\nResult: OK\n\n",(NowTest+1));
+        } else {
+            printf("Test%d\nResult: BAD\nExpected: %d\nFuncOutput: %d\n\n",(NowTest+1), Answ[NowTest], FileSizeWin(Test[NowTest]));
+        }
+    }
+    printf("\n");
+    return 0;
+}
+
+bool UTestChangeEnterOnEndOfString()
+{
+    printf("Test of Function: ChangeEnterOnEndOfString\n\n");
+
+    const int NumTests = 2;
+
+    struct STest
+    {
+        char* one;
+        int* two;
+        int three;
+    };
+
+    STest Test[NumTests] = {};
+
+    Test[0].one = NULL;
+    Test[0].two = NULL;
+    Test[0].three = 3;
+
+    Test[1].one = (char*)calloc(4, sizeof(char));
+    *Test[1].one = 'F'+'U'+'C'+'\0';
+    Test[1].two = (int*)calloc(1, sizeof(int));
+    *Test[1].two = 3;
+    Test[1].three = 3;
+    bool Answ[NumTests] = {};
+
+    Answ[0] = 0;
+    Answ[1] = 1;
+
+    for (int NowTest = 0; NowTest < NumTests; ++NowTest)
+    {
+        if(ChangeEnterOnEndOfString(Test[NowTest].one, Test[NowTest].two, Test[NowTest].three) == Answ[NowTest])
+        {
+            printf("Test%d\nResult: OK\n\n",(NowTest+1));
+        } else
+        {
+            printf("Test%d\nResult: BAD\nExpected: %d\nFuncOutput: %d\n\n",(NowTest+1), Answ[NowTest], ChangeEnterOnEndOfString(Test[NowTest].one, Test[NowTest].two, Test[NowTest].three));
+        }
+    }
+    free(Test[1].one);
+    free(Test[1].two);
+
+    return 1;
+}
+
+bool UTestFileRead()
+{
+    printf("Test of Function: FileRead\n\n");
+
+    const int NumTests = 1;
+
+    struct STest
+    {
+        char* one;
+        FILE* two;
+    };
+
+    STest Test[NumTests] = {};
+
+    Test[0].one = NULL;
+    Test[0].two = NULL;
+
+    bool Answ[NumTests] = {};
+    Answ[0] = 0;
+    for (int NowTest = 0; NowTest < NumTests; ++NowTest)
+    {
+        if(FileRead(Test[NowTest].one, Test[NowTest].two) == Answ[NowTest])
+        {
+            printf("Test%d\nResult: OK\n\n",(NowTest+1));
+        } else
+        {
+            printf("Test%d\nResult: BAD\nExpected: %d\nFuncOutput: %d\n\n",(NowTest+1), Answ[NowTest], FileRead(Test[NowTest].one, Test[NowTest].two));
+        }
+    }
 }

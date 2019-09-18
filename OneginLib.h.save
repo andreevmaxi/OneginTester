@@ -237,8 +237,11 @@
     {
         if(text == NULL || f == NULL)
         {
-            return 0;
+            return
         }
+        ASSERT(text != NULL);
+        ASSERT(f != NULL);
+
         int tmp = 0;
         int NowStr = 0;
 
@@ -260,10 +263,8 @@
 
     bool ReverseComparatorStr(const void* str1, const void* str2)
     {
-        if((char*)str1 == NULL || (char*)str2 == NULL)
-        {
-            return 0;
-        }
+        ASSERT((char*)str1 != NULL);
+        ASSERT((char*)str2 != NULL);
 
         int NowPos1 = 0;
         int NowPos2 = 0;
@@ -315,10 +316,8 @@
 
     bool ReverseStr(char* str, char** rtext, int StrNow)
     {
-        if (str == NULL || rtext == NULL)
-        {
-            return 0;
-        }
+        ASSERT(str != NULL);
+        ASSERT(rtext != NULL);
 
         rtext[StrNow] = str;
 
@@ -327,10 +326,9 @@
 
     bool NormalizeReverseText(char** text, char* first, int StrNum)
     {
-        if (text == NULL || first == NULL)
-        {
-            return 0;
-        }
+        ASSERT(text != NULL);
+        ASSERT(first != NULL);
+
         for (int i = 0; i < StrNum; ++i)
         {
             while ( (text[i]) != first && *(text[i] - 1) != '\0')
